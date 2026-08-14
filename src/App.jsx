@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import photoUrl from '../Photo.jpg'
 import resumeUrl from '../IkePeng_Resume.pdf?url'
 import moliereTrackUrl from '../Musical/Watched/Molière, le spectacle musical.mp3?url'
@@ -8,6 +8,14 @@ const pixelColors = ['#0b3c68', '#155187', '#1d6aa5', '#2f80bd', '#59a5d8', '#8b
 
 function PixelTransition({ phase, theme }) {
   if (!phase) return null
+
+  if (theme === 'poster-left' || theme === 'poster-right') {
+    return (
+      <div className={`pixel-transition horizontal-cover ${phase} ${theme}`} aria-hidden="true">
+        <div className="horizontal-cover-sheet" />
+      </div>
+    )
+  }
 
   if (theme === 'dark') {
     return (
@@ -93,6 +101,14 @@ const internships = [
 const musicalImageModules = import.meta.glob(
   '../Musical/**/*.{jpg,jpeg,png,webp}',
   { eager: true, query: '?url', import: 'default' },
+)
+
+const symposiumImages = Object.values(
+  import.meta.glob('../Publication/*.{jpg,jpeg,png,webp}', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  }),
 )
 
 const musicalWishlist = Array.from(
@@ -211,18 +227,89 @@ function OthersPage({ onPointerDown }) {
   )
 }
 
+function SymposiumPosterPage({ onBack }) {
+  return (
+    <main className="poster-page-main">
+      <section className="poster-page-header">
+        <a
+          className="poster-back-button"
+          href="/#publication"
+          aria-label="Back to publications"
+          title="Back to publications"
+          onClick={onBack}
+        >
+          ←
+        </a>
+        <p className="meta">UChicago Undergraduate Research Symposium · April 2025</p>
+        <h1>Exploring the Quantum Labyrinth</h1>
+        <p className="poster-page-subtitle">Teaching Physics Through Games</p>
+        <p>Ike Peng*, Justin Zhang*, and Lydia Liu*</p>
+        <p className="author-note">*Equal contribution</p>
+      </section>
+      <section className="poster-page-content">
+        <div
+          className="poster-gallery"
+          onDragStart={(event) => event.preventDefault()}
+        >
+          {symposiumImages.map((imageUrl, index) => (
+            <img
+              src={imageUrl}
+              alt={`Entangled Hearts presentation ${index + 1}`}
+              draggable="false"
+              key={imageUrl}
+            />
+          ))}
+        </div>
+        <p>
+          At the University of Chicago&apos;s STAGE Lab, I worked as a Research
+          Assistant with mentors Sunanda Prabhu-Gaunkar and Nancy Kawalek on{' '}
+          <em>Entangled Hearts</em> from December 2023 to May 2024. I developed a 2D
+          puzzle role-playing game in GameMaker, translating quantum concepts such as
+          superposition, uncertainty, and entanglement into level mechanics. I
+          designed puzzles, gameplay systems, narrative elements, and original visual
+          assets to balance scientific accuracy with an engaging player experience. I
+          later presented the project as a poster at the 2025 University of Chicago
+          Undergraduate Research Symposium, showing how interactive games can make
+          quantum physics more approachable.
+        </p>
+      </section>
+      <footer>
+        <span>© {new Date().getFullYear()} Ike Peng</span>
+        <a href="mailto:bpeng14@jh.edu">bpeng14@jh.edu</a>
+      </footer>
+    </main>
+  )
+}
+
 function App() {
   const [pixels, setPixels] = useState([])
   const [pageTransition, setPageTransition] = useState(null)
   const [currentPath, setCurrentPath] = useState(window.location.pathname)
   const nextPixelId = useRef(0)
+  const pendingScrollTarget = useRef(null)
   const isOthersPage = currentPath.replace(/\/$/, '') === '/others'
+  const isPosterPage = currentPath.replace(/\/$/, '') === '/publication/quantum-labyrinth'
+  const isSubPage = isOthersPage || isPosterPage
 
   useEffect(() => {
     const handlePopState = () => setCurrentPath(window.location.pathname)
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
+
+  useLayoutEffect(() => {
+    const sectionId = pendingScrollTarget.current
+    if (!sectionId || currentPath.replace(/\/$/, '') !== '') return
+
+    const section = document.getElementById(sectionId)
+    if (!section) return
+
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior
+    document.documentElement.style.scrollBehavior = 'auto'
+    section.scrollIntoView()
+    document.documentElement.style.scrollBehavior = previousScrollBehavior
+    pendingScrollTarget.current = null
+  }, [currentPath])
 
   const transitionTo = (event, destination, theme) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -256,6 +343,34 @@ function App() {
     event.preventDefault()
     window.history.replaceState({}, '', `${window.location.pathname}#about`)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const openPosterPage = (event) => {
+    event.preventDefault()
+    if (pageTransition) return
+
+    setPageTransition({ phase: 'covering', theme: 'poster-left' })
+    window.setTimeout(() => {
+      window.history.pushState({}, '', '/publication/quantum-labyrinth/')
+      setCurrentPath('/publication/quantum-labyrinth')
+      window.scrollTo({ top: 0 })
+      setPageTransition({ phase: 'revealing', theme: 'poster-left' })
+    }, 340)
+    window.setTimeout(() => setPageTransition(null), 690)
+  }
+
+  const returnToPublication = (event) => {
+    event.preventDefault()
+    if (pageTransition) return
+
+    setPageTransition({ phase: 'covering', theme: 'poster-right' })
+    window.setTimeout(() => {
+      window.history.pushState({}, '', '/#publication')
+      pendingScrollTarget.current = 'publication'
+      setCurrentPath('/')
+      setPageTransition({ phase: 'revealing', theme: 'poster-right' })
+    }, 340)
+    window.setTimeout(() => setPageTransition(null), 690)
   }
 
   const createPixelBurst = (event) => {
@@ -305,14 +420,16 @@ function App() {
         ))}
       </div>
       <aside className="sidebar">
-        <a
-          className="monogram"
-          href={isOthersPage ? '/#about' : '#about'}
-          aria-label="Ike Peng home"
-          onClick={isOthersPage ? (event) => transitionTo(event, '/#about', 'light') : scrollToTop}
-        >
-          IP
-        </a>
+        {!isPosterPage && (
+          <a
+            className="monogram"
+            href={isSubPage ? '/#about' : '#about'}
+            aria-label="Ike Peng home"
+            onClick={isOthersPage ? (event) => transitionTo(event, '/#about', 'light') : scrollToTop}
+          >
+            IP
+          </a>
+        )}
         <nav aria-label="Main navigation">
           {[
             ['About', 'about'],
@@ -322,7 +439,7 @@ function App() {
             ['Research Experience', 'research'],
           ].map(([label, id]) => (
             <a
-              href={isOthersPage ? `/#${id}` : `#${id}`}
+              href={isSubPage ? `/#${id}` : `#${id}`}
               key={id}
               onClick={
                 isOthersPage
@@ -356,7 +473,11 @@ function App() {
         </div>
       </aside>
 
-      {isOthersPage ? <OthersPage onPointerDown={createPixelBurst} /> : <main>
+      {isOthersPage ? (
+        <OthersPage onPointerDown={createPixelBurst} />
+      ) : isPosterPage ? (
+        <SymposiumPosterPage onBack={returnToPublication} />
+      ) : <main>
         <section className="intro" id="about">
           <div className="intro-copy">
             <p className="kicker">Hello, I&apos;m</p>
@@ -468,6 +589,26 @@ function App() {
             </div>
             <span className="badge">Poster</span>
           </article>
+          <article className="feature-card">
+            <div>
+              <p className="meta">
+                UChicago Undergraduate Research Symposium · April 2025
+              </p>
+              <h3>
+                Exploring the Quantum Labyrinth: Teaching Physics Through Games
+              </h3>
+              <p>Ike Peng*, Justin Zhang*, and Lydia Liu*</p>
+              <div className="publication-links">
+                <a
+                  href="/publication/quantum-labyrinth/"
+                  onClick={openPosterPage}
+                >
+                  Poster ↗
+                </a>
+              </div>
+            </div>
+            <span className="badge">Poster</span>
+          </article>
         </section>
 
         <section className="content-section" id="research">
@@ -494,7 +635,7 @@ function App() {
               </ul>
             </article>
             <article className="research-card">
-              <p className="meta">HRI Lab · University of Chicago</p>
+              <p className="meta">Sebo Lab · University of Chicago</p>
               <h3>Research Assistant</h3>
               <p className="mentor">Mentor: Prof. Sarah Sebo</p>
               <ul>

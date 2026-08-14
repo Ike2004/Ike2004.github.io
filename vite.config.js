@@ -8,6 +8,11 @@ const githubPagesSpaFallback = {
     copyFileSync('dist/index.html', 'dist/404.html')
     mkdirSync('dist/others', { recursive: true })
     copyFileSync('dist/index.html', 'dist/others/index.html')
+    mkdirSync('dist/publication/quantum-labyrinth', { recursive: true })
+    copyFileSync(
+      'dist/index.html',
+      'dist/publication/quantum-labyrinth/index.html',
+    )
   },
 }
 
