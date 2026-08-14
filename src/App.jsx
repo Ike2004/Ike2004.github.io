@@ -172,6 +172,7 @@ function App() {
       window.history.pushState({}, '', destination)
       setCurrentPath('/others')
       setPageTransition({ phase: 'entering', theme })
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0 }))
       window.setTimeout(() => setPageTransition(null), 720)
       return
     }
