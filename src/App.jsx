@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import photoUrl from '../Photo.jpg'
 import resumeUrl from '../IkePeng_Resume.pdf?url'
+import moliereTrackUrl from '../Musical/Watched/Molière, le spectacle musical.mp3?url'
 import './App.css'
 
 const pixelColors = ['#0b3c68', '#155187', '#1d6aa5', '#2f80bd', '#59a5d8', '#8bc4e8', '#c4e3f5']
@@ -105,38 +106,98 @@ const musicalWishlist = Array.from(
   }, new Map()).values(),
 ).sort((a, b) => a.title.localeCompare(b.title, 'en'))
 
+function RecordPlayer() {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const audioRef = useRef(null)
+
+  const togglePlayback = async () => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (audio.paused) {
+      try {
+        await audio.play()
+      } catch {
+        setIsPlaying(false)
+      }
+    } else {
+      audio.pause()
+    }
+  }
+
+  return (
+    <div className="record-player-wrap">
+      <button
+        className={`record-player${isPlaying ? ' playing' : ''}`}
+        type="button"
+        aria-label={isPlaying ? 'Pause Molière soundtrack' : 'Play Molière soundtrack'}
+        aria-pressed={isPlaying}
+        onClick={togglePlayback}
+        onPointerDown={(event) => event.stopPropagation()}
+      >
+        <span className="record" aria-hidden="true">
+          <span className="record-label">M</span>
+        </span>
+        <span className="tonearm-base" aria-hidden="true" />
+        <span className="tonearm" aria-hidden="true">
+          <span className="cartridge" />
+        </span>
+        <span className="player-control" aria-hidden="true">
+          {isPlaying ? 'Ⅱ' : '▶'}
+        </span>
+      </button>
+      <p>{isPlaying ? 'Now playing · Molière' : 'Tap to play · Molière'}</p>
+      <audio
+        ref={audioRef}
+        src={moliereTrackUrl}
+        preload="metadata"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => setIsPlaying(false)}
+      />
+    </div>
+  )
+}
+
 function OthersPage({ onPointerDown }) {
   return (
     <main className="others-main" onPointerDown={onPointerDown}>
       <section className="others-intro">
-        <p className="others-kicker">Beyond code</p>
-        <h1>Musical Theatre</h1>
-        <p>My musical theatre wishlist.</p>
-        <div className="wishlist-legend" aria-label="Wishlist legend">
-          <div>
-            <span className="legend-swatch seen" aria-hidden="true">
-              <i />
-              <i />
-            </span>
-            <span>Seen live</span>
-          </div>
-          <div>
-            <span className="legend-swatch wishlist" aria-hidden="true">
-              <i />
-              <i />
-            </span>
-            <span>Still on wishlist</span>
+        <div className="others-copy">
+          <p className="others-kicker">Beyond code</p>
+          <h1>Musical Theatre</h1>
+          <p>My musical theatre wishlist.</p>
+          <div className="wishlist-legend" aria-label="Wishlist legend">
+            <div>
+              <span className="legend-swatch seen" aria-hidden="true">
+                <i />
+                <i />
+              </span>
+              <span>Seen live</span>
+            </div>
+            <div>
+              <span className="legend-swatch wishlist" aria-hidden="true">
+                <i />
+                <i />
+              </span>
+              <span>Still on wishlist</span>
+            </div>
           </div>
         </div>
+        <RecordPlayer />
       </section>
-      <section className="musical-wishlist" aria-label="Musical theatre wishlist">
+      <section
+        className="musical-wishlist"
+        aria-label="Musical theatre wishlist"
+        onDragStart={(event) => event.preventDefault()}
+      >
         {musicalWishlist.map((musical) => (
           <article
             className={`musical-card${musical.watched ? ' watched' : ' not-watched'}`}
             key={musical.title}
           >
             <div className="musical-image-frame">
-              <img src={musical.imageUrl} alt="" />
+              <img src={musical.imageUrl} alt="" draggable="false" />
             </div>
             <h2>{musical.title}</h2>
           </article>
