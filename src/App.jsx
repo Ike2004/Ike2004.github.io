@@ -2,6 +2,9 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import photoUrl from '../Photo.jpg'
 import resumeUrl from '../IkePeng_Resume.pdf?url'
 import moliereTrackUrl from '../Musical/Watched/Molière, le spectacle musical.mp3?url'
+import roxxemPrimaryUrl from '../Internship/Roxxem/1.jpg'
+import roxxemProductUrl from '../Internship/Roxxem/2.png'
+import roxxemInterviewUrl from '../Internship/Roxxem/Interview.jpg'
 import './App.css'
 
 const pixelColors = ['#0b3c68', '#155187', '#1d6aa5', '#2f80bd', '#59a5d8', '#8bc4e8', '#c4e3f5']
@@ -110,6 +113,28 @@ const symposiumImages = Object.values(
     import: 'default',
   }),
 )
+
+const kangTaoImageModules = import.meta.glob(
+  '../Internship/Kang-Tao/{工作流1,工作流2,1,2,3,4,5,6,7,8}.png', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+  },
+)
+
+const kangTaoWorkflowImages = ['工作流1.png', '工作流2.png'].map(
+  (filename) => kangTaoImageModules[`../Internship/Kang-Tao/${filename}`],
+)
+
+const kangTaoGeneratedImages = Object.entries(kangTaoImageModules)
+  .filter(([path]) => /\/([1-8])\.png$/.test(path))
+  .sort(([pathA], [pathB]) => {
+    const displayOrder = [3, 1, 4, 2, 5, 7, 6, 8]
+    const numberA = Number(pathA.match(/\/([1-8])\.png$/)?.[1])
+    const numberB = Number(pathB.match(/\/([1-8])\.png$/)?.[1])
+    return displayOrder.indexOf(numberA) - displayOrder.indexOf(numberB)
+  })
+  .map(([, imageUrl]) => imageUrl)
 
 const musicalWishlist = Array.from(
   Object.entries(musicalImageModules).reduce((musicals, [path, imageUrl]) => {
@@ -281,6 +306,158 @@ function SymposiumPosterPage({ onBack }) {
   )
 }
 
+function KangTaoPortfolioPage({ onBack }) {
+  return (
+    <main className="poster-page-main kang-tao-page">
+      <section className="poster-page-header">
+        <a
+          className="poster-back-button"
+          href="/#internship"
+          aria-label="Back to internships"
+          title="Back to internships"
+          onClick={onBack}
+        >
+          ←
+        </a>
+        <p className="meta">Kang Tao Technologies · July 2024 — January 2025</p>
+        <h1>Kang Tao Technologies</h1>
+        <p className="poster-page-subtitle">AI Film Production Portfolio</p>
+        <p className="portfolio-intro">
+          I trained 30+ Stable Diffusion LoRA models and built 20+ ComfyUI
+          workflows for image and video generation on the AI short film{' '}
+          <em>September Eagles</em>.
+        </p>
+      </section>
+      <section className="kang-tao-content" onDragStart={(event) => event.preventDefault()}>
+        <div className="portfolio-section-heading">
+          <p className="meta">Process</p>
+          <h2>Production Workflows</h2>
+        </div>
+        <div className="workflow-gallery">
+          {kangTaoWorkflowImages.map((imageUrl, index) => (
+            <figure key={imageUrl}>
+              <img
+                src={imageUrl}
+                alt={`ComfyUI production workflow ${index + 1}`}
+                draggable="false"
+              />
+            </figure>
+          ))}
+        </div>
+        <div className="portfolio-section-heading generated-heading">
+          <p className="meta">Selected Work</p>
+          <h2>AI-Generated Frames</h2>
+        </div>
+        <div className="generated-gallery">
+          {kangTaoGeneratedImages.map((imageUrl, index) => (
+            <img
+              src={imageUrl}
+              alt={`Selected AI-generated frame ${index + 1}`}
+              draggable="false"
+              loading="lazy"
+              key={imageUrl}
+            />
+          ))}
+        </div>
+      </section>
+      <footer>
+        <span>© {new Date().getFullYear()} Ike Peng</span>
+        <a href="mailto:bpeng14@jh.edu">bpeng14@jh.edu</a>
+      </footer>
+    </main>
+  )
+}
+
+function RoxxemPortfolioPage({ onBack }) {
+  return (
+    <main className="poster-page-main roxxem-page">
+      <section className="poster-page-header">
+        <a
+          className="poster-back-button"
+          href="/#internship"
+          aria-label="Back to internships"
+          title="Back to internships"
+          onClick={onBack}
+        >
+          ←
+        </a>
+        <p className="meta">Roxxem · Chicago, IL · June — August 2025</p>
+        <h1>Roxxem</h1>
+        <p className="poster-page-subtitle">AI Engineering Portfolio</p>
+        <p className="portfolio-intro">
+          I rebuilt Roxxem&apos;s song-difficulty prediction pipeline across
+          MongoDB, BigQuery, FastAPI, and Google Cloud, and trained a Random
+          Forest model on 10,000+ crowdsourced data points.
+        </p>
+      </section>
+      <section
+        className="roxxem-content"
+        onDragStart={(event) => event.preventDefault()}
+      >
+        <div className="portfolio-section-heading">
+          <p className="meta">Product &amp; Team</p>
+          <h2>Building Personalized Learning</h2>
+        </div>
+        <div className="roxxem-showcase">
+          <img
+            className="roxxem-showcase-primary"
+            src={roxxemProductUrl}
+            alt="Roxxem song learning interface"
+            draggable="false"
+          />
+          <img
+            className="roxxem-showcase-team"
+            src={roxxemPrimaryUrl}
+            alt="The Roxxem team"
+            draggable="false"
+          />
+        </div>
+
+        <div className="roxxem-guidance-note">
+          <p>
+            I was fortunate to work alongside Jingjing and Hugo, whose guidance
+            shaped both my technical work and how I approached product problems.
+            My data pipeline and difficulty-modeling work supported parts of the
+            broader proficiency and personalized-learning system described in
+            Jingjing&apos;s article.{' '}
+            <a
+              href="https://blog.roxxem.com/posts/how-roxxem-measures-student-proficiencyand-uses-it-to-power-personalized-learning"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read Roxxem&apos;s Tech Blog ↗
+            </a>
+          </p>
+        </div>
+
+        <div className="roxxem-interview-section">
+          <div className="portfolio-section-heading">
+            <p className="meta">User Research</p>
+            <h2>Customer Obsession</h2>
+          </div>
+          <img
+            src={roxxemInterviewUrl}
+            alt="Talking with a language teacher at a teachers association event"
+            draggable="false"
+            loading="lazy"
+          />
+          <p className="roxxem-interview-copy">
+            Our team participated in teachers association events, where we
+            spoke directly with language teachers and interviewed them about
+            how they used Roxxem. These conversations helped us understand what
+            users needed and quickly turn their feedback into prototypes and
+            product improvements.
+          </p>
+        </div>
+      </section>
+      <footer>
+        <span>© {new Date().getFullYear()} Ike Peng</span>
+        <a href="mailto:bpeng14@jh.edu">bpeng14@jh.edu</a>
+      </footer>
+    </main>
+  )
+}
+
 function App() {
   const [pixels, setPixels] = useState([])
   const [pageTransition, setPageTransition] = useState(null)
@@ -289,7 +466,10 @@ function App() {
   const pendingScrollTarget = useRef(null)
   const isOthersPage = currentPath.replace(/\/$/, '') === '/others'
   const isPosterPage = currentPath.replace(/\/$/, '') === '/publication/quantum-labyrinth'
-  const isSubPage = isOthersPage || isPosterPage
+  const isKangTaoPage = currentPath.replace(/\/$/, '') === '/internship/kang-tao'
+  const isRoxxemPage = currentPath.replace(/\/$/, '') === '/internship/roxxem'
+  const isDetailPage = isPosterPage || isKangTaoPage || isRoxxemPage
+  const isSubPage = isOthersPage || isDetailPage
 
   useEffect(() => {
     const handlePopState = () => setCurrentPath(window.location.pathname)
@@ -373,6 +553,48 @@ function App() {
     window.setTimeout(() => setPageTransition(null), 690)
   }
 
+  const openKangTaoPage = (event) => {
+    event.preventDefault()
+    if (pageTransition) return
+
+    setPageTransition({ phase: 'covering', theme: 'poster-left' })
+    window.setTimeout(() => {
+      window.history.pushState({}, '', '/internship/kang-tao/')
+      setCurrentPath('/internship/kang-tao')
+      window.scrollTo({ top: 0 })
+      setPageTransition({ phase: 'revealing', theme: 'poster-left' })
+    }, 340)
+    window.setTimeout(() => setPageTransition(null), 690)
+  }
+
+  const returnToInternship = (event) => {
+    event.preventDefault()
+    if (pageTransition) return
+
+    setPageTransition({ phase: 'covering', theme: 'poster-right' })
+    window.setTimeout(() => {
+      window.history.pushState({}, '', '/#internship')
+      pendingScrollTarget.current = 'internship'
+      setCurrentPath('/')
+      setPageTransition({ phase: 'revealing', theme: 'poster-right' })
+    }, 340)
+    window.setTimeout(() => setPageTransition(null), 690)
+  }
+
+  const openRoxxemPage = (event) => {
+    event.preventDefault()
+    if (pageTransition) return
+
+    setPageTransition({ phase: 'covering', theme: 'poster-left' })
+    window.setTimeout(() => {
+      window.history.pushState({}, '', '/internship/roxxem/')
+      setCurrentPath('/internship/roxxem')
+      window.scrollTo({ top: 0 })
+      setPageTransition({ phase: 'revealing', theme: 'poster-left' })
+    }, 340)
+    window.setTimeout(() => setPageTransition(null), 690)
+  }
+
   const createPixelBurst = (event) => {
     if (event.button !== undefined && event.button !== 0) return
 
@@ -420,7 +642,7 @@ function App() {
         ))}
       </div>
       <aside className="sidebar">
-        {!isPosterPage && (
+        {isOthersPage && (
           <a
             className="monogram"
             href={isSubPage ? '/#about' : '#about'}
@@ -477,6 +699,10 @@ function App() {
         <OthersPage onPointerDown={createPixelBurst} />
       ) : isPosterPage ? (
         <SymposiumPosterPage onBack={returnToPublication} />
+      ) : isKangTaoPage ? (
+        <KangTaoPortfolioPage onBack={returnToInternship} />
+      ) : isRoxxemPage ? (
+        <RoxxemPortfolioPage onBack={returnToInternship} />
       ) : <main>
         <section className="intro" id="about">
           <div className="intro-copy">
@@ -544,17 +770,36 @@ function App() {
 
         <section className="content-section" id="internship">
           <h2>Internship</h2>
-          <div className="timeline">
+          <div className="internship-cards">
             {internships.map((item) => (
-              <article className="timeline-item" key={item.company}>
-                <div className="timeline-title">
-                  <div>
-                    <h3>{item.role}</h3>
-                    <p className="company">{item.company}</p>
-                  </div>
-                  <time>{item.date}</time>
+              <article className="feature-card internship-card" key={item.company}>
+                <div>
+                  <p className="meta">{item.company} · {item.date}</p>
+                  <h3>{item.role}</h3>
+                  <p>{item.summary}</p>
+                  {item.company === 'Kang Tao Technologies' && (
+                    <div className="publication-links">
+                      <a href="/internship/kang-tao/" onClick={openKangTaoPage}>
+                        Portfolio ↗
+                      </a>
+                    </div>
+                  )}
+                  {item.company === 'Roxxem' && (
+                    <div className="publication-links">
+                      <a href="/internship/roxxem/" onClick={openRoxxemPage}>
+                        Learn More ↗
+                      </a>
+                      <a
+                        href="https://blog.roxxem.com/posts/how-roxxem-measures-student-proficiencyand-uses-it-to-power-personalized-learning"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Tech Blog ↗
+                      </a>
+                    </div>
+                  )}
                 </div>
-                <p>{item.summary}</p>
+                <span className="badge">Internship</span>
               </article>
             ))}
           </div>

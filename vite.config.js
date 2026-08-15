@@ -13,6 +13,10 @@ const githubPagesSpaFallback = {
       'dist/index.html',
       'dist/publication/quantum-labyrinth/index.html',
     )
+    mkdirSync('dist/internship/kang-tao', { recursive: true })
+    copyFileSync('dist/index.html', 'dist/internship/kang-tao/index.html')
+    mkdirSync('dist/internship/roxxem', { recursive: true })
+    copyFileSync('dist/index.html', 'dist/internship/roxxem/index.html')
   },
 }
 

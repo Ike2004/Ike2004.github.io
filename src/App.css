@@ -507,6 +507,14 @@ time,
   font-size: 1.08rem;
 }
 
+.internship-card .meta {
+  margin-bottom: 6px;
+}
+
+.internship-card > div > p:not(.meta) {
+  max-width: 760px;
+}
+
 .feature-card .author-note {
   margin-top: 5px;
   color: var(--muted);
@@ -693,6 +701,164 @@ footer {
   color: var(--muted);
   font-size: 0.96rem;
   line-height: 1.75;
+}
+
+.kang-tao-page .portfolio-intro,
+.roxxem-page .portfolio-intro {
+  max-width: 760px;
+  margin-top: 17px;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.kang-tao-content {
+  padding: 28px 0 56px;
+  border-top: 1px solid var(--line);
+}
+
+.portfolio-section-heading {
+  margin-bottom: 16px;
+}
+
+.portfolio-section-heading .meta {
+  margin-bottom: 4px;
+}
+
+.portfolio-section-heading h2 {
+  margin-bottom: 0;
+}
+
+.workflow-gallery {
+  display: grid;
+  gap: 18px;
+}
+
+.workflow-gallery figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--white);
+}
+
+.workflow-gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.generated-heading {
+  margin-top: 42px;
+}
+
+.generated-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.generated-gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--white);
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.roxxem-content {
+  padding: 28px 0 56px;
+  border-top: 1px solid var(--line);
+}
+
+.roxxem-showcase {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+}
+
+.roxxem-showcase img,
+.roxxem-interview-section img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  object-fit: cover;
+  background: var(--white);
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.roxxem-showcase-primary {
+  width: auto !important;
+  max-width: 100%;
+  height: auto;
+  grid-column: 1 / span 9;
+  grid-row: 1;
+  z-index: 1;
+  object-fit: contain !important;
+}
+
+.roxxem-showcase-team {
+  grid-column: 8 / span 5;
+  grid-row: 1;
+  z-index: 2;
+  margin-top: 132px;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 18px 34px rgb(23 32 44 / 16%);
+}
+
+.roxxem-guidance-note {
+  max-width: 870px;
+  margin-top: 30px;
+}
+
+.roxxem-guidance-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.roxxem-guidance-note a {
+  color: var(--accent);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.roxxem-guidance-note a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.roxxem-interview-section {
+  margin-top: 54px;
+  padding-top: 42px;
+  border-top: 1px solid var(--line);
+}
+
+.roxxem-interview-section img {
+  width: 60%;
+  max-width: 372px;
+  aspect-ratio: 1;
+}
+
+.roxxem-interview-section .portfolio-section-heading {
+  margin-bottom: 16px;
+}
+
+.roxxem-interview-copy {
+  max-width: 870px;
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.65;
 }
 
 .page-shell.others-page {
@@ -1214,6 +1380,29 @@ footer {
 
   .poster-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .generated-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roxxem-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .roxxem-showcase-primary {
+    width: 100% !important;
+    grid-column: 1;
+  }
+
+  .roxxem-showcase-team {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 12px;
+  }
+
+  .roxxem-guidance-note {
+    margin-top: 24px;
   }
 
   .poster-page-header {
