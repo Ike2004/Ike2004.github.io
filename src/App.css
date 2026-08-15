@@ -205,9 +205,12 @@ a {
 }
 
 nav {
-  margin: auto 0;
+  position: absolute;
+  top: 50%;
+  margin: 0;
   display: grid;
   gap: 7px;
+  transform: translateY(-50%);
 }
 
 nav a {
@@ -512,7 +515,7 @@ time,
 }
 
 .internship-card > div > p:not(.meta) {
-  max-width: 760px;
+  max-width: none;
 }
 
 .feature-card .author-note {
@@ -1262,10 +1265,13 @@ footer {
   }
 
   nav {
+    position: static;
+    top: auto;
     margin: 0 0 0 auto;
     display: flex;
     gap: 14px;
     overflow-x: auto;
+    transform: none;
   }
 
   nav a {
