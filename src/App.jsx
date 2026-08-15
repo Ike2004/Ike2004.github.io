@@ -642,16 +642,6 @@ function App() {
         ))}
       </div>
       <aside className="sidebar">
-        {isOthersPage && (
-          <a
-            className="monogram"
-            href={isSubPage ? '/#about' : '#about'}
-            aria-label="Ike Peng home"
-            onClick={isOthersPage ? (event) => transitionTo(event, '/#about', 'light') : scrollToTop}
-          >
-            IP
-          </a>
-        )}
         <nav aria-label="Main navigation">
           {[
             ['About', 'about'],

@@ -231,6 +231,7 @@ nav a:hover {
 }
 
 .sidebar-links {
+  margin-top: auto;
   display: grid;
   justify-items: start;
   gap: 8px;
