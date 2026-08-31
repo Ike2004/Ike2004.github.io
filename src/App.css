@@ -708,12 +708,114 @@ footer {
 }
 
 .kang-tao-page .portfolio-intro,
-.roxxem-page .portfolio-intro {
+.roxxem-page .portfolio-intro,
+.intelligence-cubed-page .portfolio-intro {
   max-width: 760px;
   margin-top: 17px;
   color: var(--muted);
   font-size: 0.96rem;
   line-height: 1.65;
+}
+
+.intelligence-cubed-content {
+  display: grid;
+  gap: 18px;
+  padding: 28px 0 56px;
+  border-top: 1px solid var(--line);
+}
+
+.intelligence-demo {
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #111;
+  box-shadow: 0 16px 34px rgb(23 32 44 / 12%);
+}
+
+.intelligence-demo video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #111;
+}
+
+.intelligence-cubed-content > section {
+  padding: 28px 30px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--white);
+}
+
+.intelligence-cubed-content h2 {
+  margin: 4px 0 13px;
+}
+
+.intelligence-cubed-content section > p:not(.meta),
+.intelligence-cubed-content li {
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.7;
+}
+
+.intelligence-cubed-content section > p:last-child {
+  margin-bottom: 0;
+}
+
+.intelligence-cubed-content ol,
+.intelligence-cubed-content ul {
+  margin: 14px 0 18px;
+  padding-left: 22px;
+}
+
+.collaboration-roles,
+.demo-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 19px;
+}
+
+.collaboration-roles > div,
+.demo-steps > div {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--accent-soft);
+}
+
+.collaboration-roles strong,
+.collaboration-roles span {
+  display: block;
+}
+
+.collaboration-roles strong {
+  margin-bottom: 7px;
+  color: var(--accent);
+}
+
+.collaboration-roles span,
+.demo-steps p {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.demo-steps span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  color: var(--white);
+  background: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.demo-steps p {
+  margin: 0;
 }
 
 .kang-tao-content {
@@ -1391,6 +1493,15 @@ footer {
 
   .generated-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .collaboration-roles,
+  .demo-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .intelligence-cubed-content > section {
+    padding: 23px 20px;
   }
 
   .roxxem-showcase {

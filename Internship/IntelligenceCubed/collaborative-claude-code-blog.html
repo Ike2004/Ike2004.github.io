@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Collaborative Claude Code</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f1f23;
+      --muted: #62636b;
+      --line: #e6e1dc;
+      --panel: #ffffff;
+      --soft: #f8f5f1;
+      --accent: #ff6a21;
+      --accent-dark: #9a3d16;
+      --green: #0c8f62;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fffaf4 0%, #f6f3ee 100%);
+      line-height: 1.65;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
+
+    header {
+      padding: 48px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 24px 70px rgba(70, 50, 30, 0.08);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 820px;
+      font-size: clamp(40px, 7vw, 72px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .dek {
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 20px;
+    }
+
+    .video-wrap {
+      margin: 32px 0 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #111;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+    }
+
+    main {
+      display: grid;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    section {
+      padding: 34px 40px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul,
+    ol {
+      margin: 14px 0 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    .roles,
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .role,
+    .step {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+
+    .role strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent-dark);
+    }
+
+    .step span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 800;
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: #f0ece7;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 24px 14px 48px;
+      }
+
+      header,
+      section {
+        padding: 26px 20px;
+      }
+
+      .roles,
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <p class="eyebrow">Intelligence Cubed Engineering</p>
+      <h1>Building Collaborative Claude Code</h1>
+      <p class="dek">A shared AI coding workspace where teammates can watch the same Claude Code terminal, pass control, and build together without losing context.</p>
+      <div class="video-wrap">
+        <video controls src="0807Demo_Withaudio_h264.mp4"></video>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>The Problem</h2>
+        <p>AI coding tools are usually designed for one person at one terminal. In real teams, software work is rarely that isolated. A product manager may shape the workflow, an engineer may build the first version, a designer may refine the interface, and an AI agent may add domain-specific intelligence.</p>
+        <p>Claude Code is powerful for individual development, but collaboration around it is awkward. If one person drives the terminal, teammates usually have to watch through screen sharing, wait for updates, or ask the driver to copy context manually.</p>
+      </section>
+
+      <section>
+        <h2>What We Built</h2>
+        <p>Collaborative Claude Code is a browser-based shared terminal for Claude Code. Multiple users can join the same session, watch the same terminal output, and take turns controlling the workspace.</p>
+        <div class="roles">
+          <div class="role"><strong>Master</strong>The session creator who manages control.</div>
+          <div class="role"><strong>Viewer</strong>A guest who can watch the session in real time.</div>
+          <div class="role"><strong>Controller</strong>The user who can currently type into the terminal.</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>How It Works</h2>
+        <p>Each workspace runs inside a VM. A browser client connects to a backend terminal bridge, which attaches users to a persistent session runtime inside the VM. The runtime keeps the terminal alive across browser reconnects, while the bridge controls which client can send input.</p>
+        <ol>
+          <li>Create a Claude Code VM.</li>
+          <li>Open Collaborative Claude from the VM dashboard.</li>
+          <li>Create and connect to a session as the master.</li>
+          <li>Generate a guest link and invite a teammate.</li>
+          <li>Transfer control when the next teammate is ready to work.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Demo Scenario</h2>
+        <p>In the demo, three teammates collaborate on a second-hand NVIDIA GPU marketplace.</p>
+        <div class="demo-grid">
+          <div class="step"><span>1</span><p>The first teammate creates the seller workflow for uploading used GPU listings.</p></div>
+          <div class="step"><span>2</span><p>The second teammate turns it into a buyer-facing marketplace for browsing and comparing GPUs.</p></div>
+          <div class="step"><span>3</span><p>The third teammate integrates an AI advisor widget for GPU purchase questions.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Engineering Challenges</h2>
+        <p>The most interesting part was not just showing the same terminal to multiple people. It was making the shared terminal behave correctly when different users had different roles, browsers, and screen sizes.</p>
+        <ul>
+          <li>Viewers should watch output without accidentally taking control.</li>
+          <li>Control transfer should feel smooth and avoid manual reconnects.</li>
+          <li>Terminal sizing should follow the controller, not every viewer.</li>
+          <li>Internal session details should stay invisible for a cleaner Claude Code experience.</li>
+          <li>Website preview should make generated frontend work visible immediately.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Why It Matters</h2>
+        <p>Collaborative Claude Code is useful because modern AI development is increasingly cross-functional. People with different strengths need to work on the same artifact without losing context.</p>
+        <p>Instead of sending screenshots, copying logs, or asking one person to drive the whole session, teammates can join the same workspace and hand off control at the moment their expertise is needed.</p>
+      </section>
+
+      <section>
+        <h2>What's Next</h2>
+        <p>The next direction is Agent-as-a-Service. Instead of requiring a user to manually operate Claude Code in the terminal, the system could accept a task, files, and configuration, then run Claude Code as a background job.</p>
+        <p>Collaborative Claude Code started as a way to make Claude Code multiplayer. The broader goal is to make AI-assisted software development easier to share, review, and hand off across a team.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

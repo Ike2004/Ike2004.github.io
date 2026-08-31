@@ -5,6 +5,7 @@ import moliereTrackUrl from '../Musical/Watched/Molière, le spectacle musical.m
 import roxxemPrimaryUrl from '../Internship/Roxxem/1.jpg'
 import roxxemProductUrl from '../Internship/Roxxem/2.png'
 import roxxemInterviewUrl from '../Internship/Roxxem/Interview.jpg'
+import intelligenceCubedDemoUrl from '../Internship/IntelligenceCubed/0807Demo_Withaudio_h264.mp4?url'
 import './App.css'
 
 const pixelColors = ['#0b3c68', '#155187', '#1d6aa5', '#2f80bd', '#59a5d8', '#8bc4e8', '#c4e3f5']
@@ -458,6 +459,140 @@ function RoxxemPortfolioPage({ onBack }) {
   )
 }
 
+function IntelligenceCubedPortfolioPage({ onBack }) {
+  return (
+    <main className="poster-page-main intelligence-cubed-page">
+      <section className="poster-page-header">
+        <a
+          className="poster-back-button"
+          href="/#internship"
+          aria-label="Back to internships"
+          title="Back to internships"
+          onClick={onBack}
+        >
+          ←
+        </a>
+        <p className="meta">Intelligence Cubed · May 2026 — Present</p>
+        <h1>Building Collaborative Claude Code</h1>
+        <p className="poster-page-subtitle">A Shared AI Coding Workspace</p>
+        <p className="portfolio-intro">
+          A browser-based workspace where teammates can watch the same Claude Code
+          terminal, pass control, and build together without losing context.
+        </p>
+      </section>
+
+      <article className="intelligence-cubed-content">
+        <div className="intelligence-demo">
+          <video controls preload="metadata" playsInline>
+            <source src={intelligenceCubedDemoUrl} type="video/mp4" />
+            Your browser does not support embedded video.
+          </video>
+        </div>
+
+        <section>
+          <p className="meta">The Problem</p>
+          <h2>AI coding is still a single-player experience</h2>
+          <p>
+            AI coding tools are usually designed for one person at one terminal. In
+            real teams, software work is rarely that isolated: a product manager may
+            shape the workflow, an engineer may build the first version, and a
+            designer may refine the interface.
+          </p>
+          <p>
+            If one person drives Claude Code, teammates usually have to watch through
+            screen sharing, wait for updates, or ask the driver to copy context
+            manually. Only one person can operate the agent, teammates cannot easily
+            follow the full terminal history, and handoffs lose context.
+          </p>
+        </section>
+
+        <section>
+          <p className="meta">What We Built</p>
+          <h2>Collaborative Claude Code</h2>
+          <p>
+            Multiple users can join the same browser-based terminal, watch its output
+            in real time, and take turns controlling the workspace. Only one person
+            controls the terminal at a time; guests can request control, and the
+            session creator can approve or transfer it.
+          </p>
+          <div className="collaboration-roles">
+            <div><strong>Master</strong><span>Creates the session and manages control.</span></div>
+            <div><strong>Viewer</strong><span>Watches the shared session in real time.</span></div>
+            <div><strong>Controller</strong><span>Has permission to type into the terminal.</span></div>
+          </div>
+        </section>
+
+        <section>
+          <p className="meta">How It Works</p>
+          <h2>A persistent shared runtime</h2>
+          <p>
+            Each workspace runs inside a VM. A browser client connects to a backend
+            terminal bridge, which attaches users to a persistent runtime. The runtime
+            keeps the terminal alive across reconnects, while the bridge determines
+            which client can send input.
+          </p>
+          <ol>
+            <li>Create a Claude Code VM and open Collaborative Claude.</li>
+            <li>Create a session as the master and generate a guest link.</li>
+            <li>Invite a teammate to join as a viewer.</li>
+            <li>Transfer control when the next teammate is ready to work.</li>
+          </ol>
+          <p>
+            A website preview panel also displays frontend work served from inside the
+            VM directly alongside the collaborative terminal.
+          </p>
+        </section>
+
+        <section>
+          <p className="meta">Demo Scenario</p>
+          <h2>Building a GPU marketplace together</h2>
+          <p>
+            In the demo, three teammates collaborate on a second-hand NVIDIA GPU
+            marketplace, handing off the same live workspace as the product evolves.
+          </p>
+          <div className="demo-steps">
+            <div><span>1</span><p>The first teammate builds a seller workflow for uploading used GPU listings.</p></div>
+            <div><span>2</span><p>The second turns it into a buyer-facing marketplace for browsing and comparison.</p></div>
+            <div><span>3</span><p>The third integrates an AI advisor for GPU purchase questions.</p></div>
+          </div>
+        </section>
+
+        <section>
+          <p className="meta">Engineering Challenges</p>
+          <h2>Beyond screen sharing</h2>
+          <ul>
+            <li>Let viewers follow output without accidentally taking control.</li>
+            <li>Make control transfers seamless, without manual reconnects.</li>
+            <li>Size the terminal for the controller rather than every viewer.</li>
+            <li>Hide internal session details for a clean Claude Code experience.</li>
+            <li>Make generated frontend work immediately visible in the preview.</li>
+          </ul>
+        </section>
+
+        <section>
+          <p className="meta">Why It Matters</p>
+          <h2>Shared context for cross-functional teams</h2>
+          <p>
+            Instead of sending screenshots, copying logs, or asking one person to
+            drive the whole session, teammates can join the same workspace and hand
+            off control when their expertise is needed.
+          </p>
+          <p>
+            The next direction is Agent-as-a-Service: teams could submit tasks, files,
+            and configuration, run Claude Code as a background job, monitor progress,
+            and retrieve generated outputs. The broader goal is to make AI-assisted
+            development easier to share, review, and hand off.
+          </p>
+        </section>
+      </article>
+      <footer>
+        <span>© {new Date().getFullYear()} Ike Peng</span>
+        <a href="mailto:bpeng14@jh.edu">bpeng14@jh.edu</a>
+      </footer>
+    </main>
+  )
+}
+
 function App() {
   const [pixels, setPixels] = useState([])
   const [pageTransition, setPageTransition] = useState(null)
@@ -468,7 +603,8 @@ function App() {
   const isPosterPage = currentPath.replace(/\/$/, '') === '/publication/quantum-labyrinth'
   const isKangTaoPage = currentPath.replace(/\/$/, '') === '/internship/kang-tao'
   const isRoxxemPage = currentPath.replace(/\/$/, '') === '/internship/roxxem'
-  const isDetailPage = isPosterPage || isKangTaoPage || isRoxxemPage
+  const isIntelligenceCubedPage = currentPath.replace(/\/$/, '') === '/internship/intelligence-cubed'
+  const isDetailPage = isPosterPage || isKangTaoPage || isRoxxemPage || isIntelligenceCubedPage
   const isSubPage = isOthersPage || isDetailPage
 
   useEffect(() => {
@@ -595,6 +731,20 @@ function App() {
     window.setTimeout(() => setPageTransition(null), 690)
   }
 
+  const openIntelligenceCubedPage = (event) => {
+    event.preventDefault()
+    if (pageTransition) return
+
+    setPageTransition({ phase: 'covering', theme: 'poster-left' })
+    window.setTimeout(() => {
+      window.history.pushState({}, '', '/internship/intelligence-cubed/')
+      setCurrentPath('/internship/intelligence-cubed')
+      window.scrollTo({ top: 0 })
+      setPageTransition({ phase: 'revealing', theme: 'poster-left' })
+    }, 340)
+    window.setTimeout(() => setPageTransition(null), 690)
+  }
+
   const createPixelBurst = (event) => {
     if (event.button !== undefined && event.button !== 0) return
 
@@ -693,6 +843,8 @@ function App() {
         <KangTaoPortfolioPage onBack={returnToInternship} />
       ) : isRoxxemPage ? (
         <RoxxemPortfolioPage onBack={returnToInternship} />
+      ) : isIntelligenceCubedPage ? (
+        <IntelligenceCubedPortfolioPage onBack={returnToInternship} />
       ) : <main>
         <section className="intro" id="about">
           <div className="intro-copy">
@@ -767,6 +919,13 @@ function App() {
                   <p className="meta">{item.company} · {item.date}</p>
                   <h3>{item.role}</h3>
                   <p>{item.summary}</p>
+                  {item.company === 'Intelligence Cubed' && (
+                    <div className="publication-links">
+                      <a href="/internship/intelligence-cubed/" onClick={openIntelligenceCubedPage}>
+                        Tech Blog &amp; Demo ↗
+                      </a>
+                    </div>
+                  )}
                   {item.company === 'Kang Tao Technologies' && (
                     <div className="publication-links">
                       <a href="/internship/kang-tao/" onClick={openKangTaoPage}>
