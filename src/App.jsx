@@ -6,6 +6,9 @@ import roxxemPrimaryUrl from '../Internship/Roxxem/1.jpg'
 import roxxemProductUrl from '../Internship/Roxxem/2.png'
 import roxxemInterviewUrl from '../Internship/Roxxem/Interview.jpg'
 import intelligenceCubedDemoUrl from '../Internship/IntelligenceCubed/0807Demo_Withaudio_h264.mp4?url'
+import jhuBadgeUrl from '../badge/JHU.png'
+import uchicagoBadgeUrl from '../badge/Uchi.png'
+import washuBadgeUrl from '../badge/WashU.png'
 import './App.css'
 
 const pixelColors = ['#0b3c68', '#155187', '#1d6aa5', '#2f80bd', '#59a5d8', '#8bc4e8', '#c4e3f5']
@@ -887,25 +890,40 @@ function App() {
           <h2>Education</h2>
           <div className="education-grid">
             <article className="card">
-              <div>
-                <h3>Johns Hopkins University</h3>
-                <p>Master of Science in Computer Science</p>
+              <div className="education-details">
+                <div>
+                  <h3>Johns Hopkins University</h3>
+                  <p>Master of Science in Computer Science</p>
+                </div>
+                <time>Jul 2026 — Present</time>
               </div>
-              <time>Jul 2026 — Present</time>
+              <div className="education-badge">
+                <img src={jhuBadgeUrl} alt="Johns Hopkins University emblem" />
+              </div>
             </article>
             <article className="card">
-              <div>
-                <h3>University of Chicago</h3>
-                <p>B.S. in Computer Science and Statistics</p>
+              <div className="education-details">
+                <div>
+                  <h3>University of Chicago</h3>
+                  <p>B.S. in Computer Science and Statistics</p>
+                </div>
+                <time>Sep 2023 — Jun 2026</time>
               </div>
-              <time>Sep 2023 — Jun 2026</time>
+              <div className="education-badge">
+                <img src={uchicagoBadgeUrl} alt="University of Chicago emblem" />
+              </div>
             </article>
             <article className="card">
-              <div>
-                <h3>Washington University in St. Louis</h3>
-                <p>Coursework in Computer Science</p>
+              <div className="education-details">
+                <div>
+                  <h3>Washington University in St. Louis</h3>
+                  <p>Coursework in Computer Science</p>
+                </div>
+                <time>2022 — 2023</time>
               </div>
-              <time>2022 — 2023</time>
+              <div className="education-badge">
+                <img src={washuBadgeUrl} alt="Washington University in St. Louis emblem" />
+              </div>
             </article>
           </div>
         </section>
@@ -1010,7 +1028,6 @@ function App() {
           <div className="research-grid">
             <article className="research-card">
               <p className="meta">Johns Hopkins University · Present</p>
-              <h3>Research Assistant</h3>
               <p className="mentor">Mentor: Prof. Kristina Gligoric</p>
               <ul>
                 <li>
@@ -1018,34 +1035,67 @@ function App() {
                   Anachronism · Present
                 </li>
               </ul>
+              <div className="publication-links">
+                <a
+                  href="https://gligoric.cs.jhu.edu/#lab"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Lab Page ↗
+                </a>
+              </div>
             </article>
             <article className="research-card">
               <p className="meta">CHAI Lab · University of Chicago</p>
-              <h3>Research Assistant</h3>
               <p className="mentor">Mentor: Prof. Chenhao Tan</p>
               <ul>
-                <li>Heuristic-Guided Hypothesis Generation · Jul 2025 — Present</li>
+                <li>Heuristic-Guided Hypothesis Generation · Jul — Dec 2025</li>
                 <li>Concept Incongruence in LLM Role-Play · Feb — May 2025</li>
               </ul>
+              <div className="publication-links">
+                <a
+                  href="https://chicagohai.github.io/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Lab Page ↗
+                </a>
+              </div>
             </article>
             <article className="research-card">
               <p className="meta">Sebo Lab · University of Chicago</p>
-              <h3>Research Assistant</h3>
               <p className="mentor">Mentor: Prof. Sarah Sebo</p>
               <ul>
                 <li>Homework Companion Robot Study · Jan — Mar 2025</li>
                 <li>Human-Robot Rapport · Feb — May 2024</li>
               </ul>
+              <div className="publication-links">
+                <a
+                  href="https://sebo-hri-lab.github.io/pages/people.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Lab Page ↗
+                </a>
+              </div>
             </article>
             <article className="research-card">
               <p className="meta">STAGE Lab · University of Chicago</p>
-              <h3>Research Assistant</h3>
               <p className="mentor">
                 Mentors: Sunanda Prabhu-Gaunkar &amp; Nancy Kawalek
               </p>
               <ul>
                 <li>Entangled Hearts · Dec 2023 — May 2024</li>
               </ul>
+              <div className="publication-links">
+                <a
+                  href="https://stagecenter.uchicago.edu/people-of-stage/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Lab Page ↗
+                </a>
+              </div>
             </article>
           </div>
         </section>

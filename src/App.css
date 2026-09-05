@@ -424,9 +424,35 @@ p {
 
 .card {
   min-height: 108px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 74px;
+  align-items: stretch;
+  gap: 18px;
+}
+
+.education-details {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.education-badge {
+  width: 74px;
+  height: 74px;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.education-badge img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
 .card p,
@@ -500,6 +526,9 @@ time,
 .feature-card > div {
   min-width: 0;
   flex: 1;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
 }
 
 .feature-card + .feature-card {
@@ -530,7 +559,8 @@ time,
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: auto;
+  padding-top: 14px;
 }
 
 .publication-links a,
@@ -595,6 +625,8 @@ time,
 
 .research-card {
   min-height: 172px;
+  display: flex;
+  flex-direction: column;
 }
 
 .research-card .mentor {
